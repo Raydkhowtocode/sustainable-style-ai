@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fast Fashion vs Sustainable Classifier | AlexNet Project</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <nav class="nav">
+      <div class="logo">SustainableStyle.ai</div>
+      <ul class="nav-links">
+        <li><a href="#problem">Problem</a></li>
+        <li><a href="#dataset">Dataset</a></li>
+        <li><a href="#model">Model</a></li>
+        <li><a href="#experiments">Experiments</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#takeaways">Takeaways</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero-content">
+      <div>
+        <h1>Fast Fashion vs Sustainable Clothing Classifier</h1>
+        <p class="hero-subtitle">
+          Using AlexNet and deep learning to help shoppers make more sustainable fashion choices.
+        </p>
+        <div class="hero-meta">
+          <span>Project Lead: <strong>Ray Turnier</strong></span>
+          <span>Course: Data Science &amp; Analytics</span>
+        </div>
+        <a href="#results" class="btn-primary">Jump to Results</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Problem Section -->
+    <section id="problem" class="section">
+      <div class="section-header">
+        <h2>✨ Problem & Motivation</h2>
+        <p>Why does classifying clothing brands matter?</p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>The Fast Fashion Problem</h3>
+          <ul>
+            <li>Fast fashion is a major contributor to pollution and textile waste.</li>
+            <li>Production often relies on low-cost, low-transparency supply chains.</li>
+            <li>Consumers rarely know whether a brand is sustainable or harmful.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Project Goal</h3>
+          <ul>
+            <li>Build an image classifier that labels clothing as <strong>Fast Fashion</strong> or <strong>Sustainable</strong>.</li>
+            <li>Use AlexNet as the core CNN architecture, with transfer learning.</li>
+            <li>Explore how hyperparameters and augmentation affect performance.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dataset Section -->
+    <section id="dataset" class="section">
+      <div class="section-header">
+        <h2>📂 Dataset Overview</h2>
+        <p>Custom, hand-curated image dataset of clothing items.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card folder-diagram">
+          <div class="folder-column">
+            <div class="folder large">Fast Fashion</div>
+            <div class="folder large">Sustainable</div>
+          </div>
+          <div class="folder-column">
+            <div class="folder small">train/</div>
+            <div class="folder small">valid/</div>
+            <div class="folder small">train/</div>
+            <div class="folder small">valid/</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Structure & Sources</h3>
+          <ul>
+            <li>Images collected from online search for known fast-fashion and sustainable brands.</li>
+            <li>Two top-level classes: <strong>fast-fashion</strong>, <strong>sustainable</strong>.</li>
+            <li>Organized into <code>train/</code> and <code>valid/</code> folders per class.</li>
+            <li>All images resized to <strong>224 × 224</strong> pixels for AlexNet.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card image-card">
+        <h3>Sample Images</h3>
+        <p class="muted">(Replace this image with a grid from your dataset.)</p>
+        <img src="images/sample-grid.png" alt="Sample dataset grid" class="preview-img">
+      </div>
+    </section>
+
+    <!-- Model Section -->
+    <section id="model" class="section">
+      <div class="section-header">
+        <h2>🧠 Model & Technical Approach</h2>
+        <p>How AlexNet is adapted for sustainable fashion classification.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Why AlexNet?</h3>
+          <ul>
+            <li>Classic CNN architecture that won ImageNet in 2012.</li>
+            <li>Well-suited for transfer learning on smaller custom datasets.</li>
+            <li>Computationally efficient enough to train on Google Colab GPU.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Architecture (Adapted)</h3>
+          <ul>
+            <li>Input: <code>3 × 224 × 224</code> RGB images.</li>
+            <li>5 convolutional layers + ReLU activations.</li>
+            <li>Max pooling layers to downsample feature maps.</li>
+            <li>Dropout in fully connected layers to reduce overfitting.</li>
+            <li>Final fully connected layer modified to output <strong>2 classes</strong>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Preprocessing & Training Pipeline</h3>
+        <ol class="pipeline">
+          <li><span>1</span> Load images from Google Drive dataset folders.</li>
+          <li><span>2</span> Resize to 224 × 224 and normalize with ImageNet mean/std.</li>
+          <li><span>3</span> Apply optional data augmentation (flips, rotations, color jitter).</li>
+          <li><span>4</span> Feed batches into AlexNet; compute cross-entropy loss.</li>
+          <li><span>5</span> Optimize with Adam/SGD; tune learning rate and batch size.</li>
+          <li><span>6</span> Track metrics and confusion matrices using Weights & Biases (wandb).</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Experiments Section -->
+    <section id="experiments" class="section">
+      <div class="section-header">
+        <h2>🔬 Experiments</h2>
+        <p>Exploring how training choices affect model performance.</p>
+      </div>
+
+      <div class="card">
+        <table class="exp-table">
+          <thead>
+            <tr>
+              <th>Experiment</th>
+              <th>Settings</th>
+              <th>Goal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Batch Size</td>
+              <td>Compare <code>16</code> vs <code>64</code></td>
+              <td>Understand impact on stability and convergence speed.</td>
+            </tr>
+            <tr>
+              <td>Learning Rate</td>
+              <td>Compare <code>1e-3</code> vs <code>1e-4</code></td>
+              <td>Balance learning speed vs overshooting minima.</td>
+            </tr>
+            <tr>
+              <td>Data Augmentation</td>
+              <td>With vs without flips/rotations/color jitter</td>
+              <td>Measure effect on generalization and overfitting.</td>
+            </tr>
+            <tr>
+              <td>Architecture Comparison</td>
+              <td>AlexNet vs ResNet18 (transfer learning)</td>
+              <td>See whether deeper residual networks outperform AlexNet.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Implementation Details</h3>
+        <ul>
+          <li>Framework: <strong>PyTorch</strong> in Google Colab.</li>
+          <li>Loss: <code>CrossEntropyLoss</code>.</li>
+          <li>Optimizers: Adam and/or SGD with momentum.</li>
+          <li>Tracking: all runs logged with <strong>wandb</strong> (accuracy, loss, confusion matrices).</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results" class="section">
+      <div class="section-header">
+        <h2>📊 Results & Visualizations</h2>
+        <p>Training curves, validation performance, and confusion matrices.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card image-card">
+          <h3>Training vs Validation Accuracy</h3>
+          <p class="muted">Replace with a plot exported from wandb or Matplotlib.</p>
+          <img src="images/training-curves.png" alt="Training and validation accuracy curves" class="preview-img">
+        </div>
+        <div class="card image-card">
+          <h3>Confusion Matrix</h3>
+          <p class="muted">Shows how often each class is predicted correctly.</p>
+          <img src="images/confusion-matrix.png" alt="Confusion matrix" class="preview-img">
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Key Findings (Example – update with your actual numbers)</h3>
+        <ul>
+          <li>Best AlexNet configuration achieved around <strong>XX% validation accuracy</strong>.</li>
+          <li>Data augmentation reduced overfitting and improved generalization.</li>
+          <li>Lower learning rate (<code>1e-4</code>) produced smoother, more stable training curves.</li>
+          <li>ResNet18 slightly outperformed AlexNet on this dataset, suggesting benefits from deeper residual connections.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Takeaways Section -->
+    <section id="takeaways" class="section">
+      <div class="section-header">
+        <h2>🌱 Discussion & Takeaways</h2>
+        <p>What this project shows about deep learning and sustainable fashion.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>What Worked Well</h3>
+          <ul>
+            <li>Transfer learning allowed high performance on a relatively small custom dataset.</li>
+            <li>Simple augmentations significantly improved robustness to new images.</li>
+            <li>wandb made it easy to compare runs and choose good hyperparameters.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Limitations & Future Work</h3>
+          <ul>
+            <li>Dataset size and brand diversity could be expanded.</li>
+            <li>Real-world deployment would require continuous updates and more brands.</li>
+            <li>Next steps: deploy as a web or mobile app for real-time image classification.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card links-card">
+        <h3>Project Links</h3>
+        <ul>
+          <li><strong>Colab Notebook:</strong> <a href="#" target="_blank">Add your Colab link here</a></li>
+          <li><strong>Scientific Poster:</strong> <a href="#" target="_blank">Add your Google Slides poster link</a></li>
+          <li><strong>Presentation Video:</strong> <a href="#" target="_blank">Add your YouTube / Drive link</a></li>
+          <li><strong>GitHub Repository:</strong> <a href="#" target="_blank">This website’s code</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© 2025 Ray Turnier · Sustainable Fashion Classifier · Built with 💻 & pastel gradients</p>
+    </footer>
+  </main>
+</body>
+</html>
