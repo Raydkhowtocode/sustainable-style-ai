@@ -324,3 +324,34 @@ main {
     padding-inline: 1rem;
   }
 }
+/* ---- FIX OVERLAPPING SECTIONS ---- */
+
+section {
+  margin-top: 80px;        /* adds space between each section */
+  padding-top: 40px;       /* prevents content from sitting too high */
+}
+
+.card {
+  margin-bottom: 40px;     /* adds space below each card */
+}
+
+.image-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* Prevent grid items from overlapping */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+/* Ensure long images don't break layout */
+.preview-img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
